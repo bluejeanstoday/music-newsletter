@@ -1,0 +1,50 @@
+name: Weekly Music Newsletter
+
+on:
+  schedule:
+    # 매주 금요일 오후 4시 (한국시간) = 매주 금요일 오전 7시 (UTC)
+    - cron: '0 7 * * 5'
+  
+  # 수동 실행도 가능하게
+  workflow_dispatch:
+
+jobs:
+  send-newsletter:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    
+    - name: Generate and send newsletter
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      run: |
+        python newsletter_generator.py
+```
+
+4. 페이지 맨 아래 **"Commit changes"** 클릭
+
+---
+
+## ✅ **완료!**
+
+이제 저장소에 이런 구조가 생겼어요:
+```
+music-newsletter/
+├─ newsletter_generator.py
+├─ requirements.txt
+├─ README.md
+└─ .github/
+    └─ workflows/
+        └─ weekly.yml
