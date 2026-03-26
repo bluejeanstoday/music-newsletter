@@ -73,43 +73,67 @@ def generate_newsletter():
 4. 최종 3-4개 핵심 뉴스만 선별
 5. 아래 포맷으로 작성
 
-**뉴스레터 포맷:**
+**뉴스레터 포맷 (정확히 이 구조로):**
 
 ```
 [월]월 [주]주차 뉴스클리핑 전달드립니다.
 
-1. [뉴스 제목]
-<URL>
+1. [간결한 제목 (15자 이내)]
+<https://전체URL>
 
    -
-   
-   [핵심 내용 1: 사실 중심, 100-150자]
-   
+
+   [핵심 팩트 1줄, 80자 이내. 숫자/금액은 정확히 명시]
+
    -
-   
-   [핵심 내용 2: 추가 세부사항, 100-150자]
+
+   [핵심 팩트 2줄, 80자 이내]
+
+   -
+
+   [추가 정보 if 필요, 80자 이내]
 
 
 2. [두 번째 뉴스 제목]
-<URL>
+<https://URL>
 
    -
-   
+
    [내용]
 
 
 3. [세 번째 뉴스 제목]
+<https://URL>
 
-...
+   -
+
+   [내용]
 ```
 
+**포맷 필수 규칙:**
+1. 제목과 URL 사이: 줄바꿈
+2. URL 다음: 빈 줄 하나
+3. 각 불릿 `-` 다음: 빈 줄 하나
+4. 각 불릿 내용: 1-2문장, 최대 80자
+5. 불릿 사이: 빈 줄 하나
+6. 뉴스 사이: 빈 줄 2개
+
+**문장 작성 규칙:**
+- 한 문장 = 하나의 팩트만
+- 숫자/금액은 정확히 (예: 5,200곡, ₩150억)
+- 복잡한 설명 금지
+- "~고 밝혔다", "~고 설명함" 같은 간결한 종결
+- 최대 80자, 넘으면 2개 불릿으로 분리
+
 **중요 규칙:**
-- 뉴스 개수: 3-4개 (최대 4개, 5개 금지)
-- 각 뉴스: 간결하고 객관적, 사실 중심
-- 숫자/금액/수치 반드시 명시
-- URL 포함 필수
-- 날짜 명시 불필요 (이미 최신 뉴스만 검색)
+- 뉴스 개수: **정확히 3-4개** (5개 절대 금지)
+- 각 불릿: 1-2문장, **최대 80자**
+- 숫자/금액 정확히 명시 (예: 5,200곡, 61%, ₩150억)
+- URL 필수 포함 (<https://...> 형식)
+- 날짜 명시 불필요
+- 빈 줄로 구분 (가독성 최우선)
 - 반드시 지난 7일 이내만
+- 복잡한 설명 금지, 팩트만
 
 지금 바로 시작해주세요."""
 
@@ -162,15 +186,16 @@ def send_email(newsletter_content):
     # HTML 버전
     html_content = f"""
     <html>
-    <body style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
-        <pre style="white-space: pre-wrap; font-family: 'Malgun Gothic', sans-serif; line-height: 1.6;">
+    <body style="font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; max-width: 700px; margin: 0 auto; padding: 30px; background-color: #f9f9f9;">
+        <div style="background-color: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <pre style="white-space: pre-wrap; font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; line-height: 1.8; font-size: 14px; color: #333;">
 {newsletter_content}
-        </pre>
-        <hr style="margin-top: 40px; border: none; border-top: 1px solid #ccc;">
-        <p style="color: #666; font-size: 12px;">
+            </pre>
+        </div>
+        <hr style="margin-top: 40px; border: none; border-top: 1px solid #ddd;">
+        <p style="color: #999; font-size: 11px; text-align: center; margin-top: 20px;">
         본 뉴스레터는 자동으로 생성되어 발송되었습니다.<br>
-        생성 시간: {today.strftime('%Y-%m-%d %H:%M')}<br>
-        Powered by Claude AI
+        생성 시간: {today.strftime('%Y-%m-%d %H:%M')} | Powered by Claude AI
         </p>
     </body>
     </html>
